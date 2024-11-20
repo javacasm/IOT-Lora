@@ -1,28 +1,31 @@
 from machine import Pin,SoftI2C
 from time import sleep
 from ssd1306 import SSD1306_I2C
+from config_lora import *
 
 v = 0.5
 
-OLED_RESET = 16
+led = None
 
-OLED_SCL = 15
-OLED_SDA = 4
+def init_led():
+    global led
+    if led == None:
+        led = Pin(LED_BUILTIN,Pin.OUT)
 
-OLED_ADDRESS = 0x3c
-
-OLED_WITDH = 128
-OLED_HEIGHT = 64
-
-LED_BUILTIN = 2
-
+def set_led(valor):
+    if led == None:
+        init_led()
+    led.value(valor)
+    
 def test_led():
-    led = Pin(LED_BUILTIN,Pin.OUT)
+    if led == None:
+        init_led()
+        
     espera = 0.5
     for i in range(10):
-        led.on()
+        set_led(True)
         sleep(espera)
-        led.off()
+        set_led(False)
         sleep(espera)
         espera /= 1.5
 
@@ -39,13 +42,14 @@ def init_oled():
     print('init oled')
     if i2c == None:
         init_i2c()
-        
-    oled_rst = Pin(OLED_RESET,Pin.OUT)        
-    oled_rst.off()
-    print(f'oled reset off: {i2c.scan()}')
+    
+    if OLED_RESET:
+        oled_rst = Pin(OLED_RESET,Pin.OUT)        
+        oled_rst.off()
+        print(f'oled reset off: {i2c.scan()}')
 
-    oled_rst.on()
-    print(f'oled reset on: {i2c.scan()}')        
+        oled_rst.on()
+        print(f'oled reset on: {i2c.scan()}')        
     oled = SSD1306_I2C(OLED_WITDH,OLED_HEIGHT,i2c,addr=OLED_ADDRESS)    
     
 def show_text_oled(texto,x,y):
@@ -55,6 +59,10 @@ def show_text_oled(texto,x,y):
     # print(f'show_text({texto})')
     oled.text(texto,x,y)
     oled.show()
+
+def show(text,y=0):
+    print(text)
+    show_text_oled(text,0,y)
 
 def clear_oled():
     global oled
@@ -72,10 +80,3 @@ def test_oled():
     show_text('lora',0,9)
     sleep(1)
     
-    print('reset off')
-    oled_rst.off()
-
-    sleep(1)
-    
-    print('reset on')
-    oled_rst.on()
