@@ -30,8 +30,9 @@
 	* time
 	* random
 	* math
+* Documentación
 * I2C
 * Pantallas OLED
 * Configuración wifi
 	* ntp
-* Documentación
+* MQTT
