@@ -1,11 +1,12 @@
 '''
-Programa para gestionar la lista de la compra
-
+Programa para gestionar la lista de la compra y que se muestre en la pantalla OLED
 '''
 from machine import Pin, SoftI2C
-import ssd1306
+from ssd1306 import SSD1306_I2C
+
 i2c = SoftI2C(scl=Pin(22), sda=Pin(21))
-pantalla = ssd1306.SSD1306_I2C(128, 64, i2c)
+
+pantalla = SSD1306_I2C(128, 64, i2c) # ancho, algo, conexión i2c
 pantalla.fill(0) # borro la pantalla
 
 lista_compra = ['cafe','patata','cerveza','papel higienico']
