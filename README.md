@@ -1,4 +1,4 @@
-# Curso de especialización en IOT - Lora
+# Curso de especialización en IOT - Lora II
  
 ![](./images/portada%20IOT%20-%20Lora%20.png)
 
@@ -8,49 +8,52 @@
 
 ## Programación de microncontroladores con Python
 
-* Programación básica en python
-* Instalación de micropython
-* Montajes sencillos de sensores, pantalla y relés
-* Sistema de riego local
-* Conexión remota a Wifi y mediante Lora
-
+* Programación de nivel intermedio en python
+* Instalación de módulos en micropython
+* Montajes sensores y actuadores 
+* Sistema de riego controlado remotamente
+* Conexión remota usando Lora
+### Servidor local
+* Instalación y configuración de Raspberry
+* Envío de datos MQTT a Raspberry
+* Instalación y uso de Node-Red 
+* Instalación y uso de la base de datos InfluxDB
+* Instalación y uso de Grafana
 ## Lora
-
-* Conexión punto a punto entre 2 equipos Lora
-* Sistema de riego usando tecnología Lora 
-
-## Raspberry Pi
-
-* Introducción a la plataforma Raspberry Pi
-* Instalación y uso
+* Conexión entre 2 equipos Lora
+* Conexión de red en estrella usando Lora
+## LoraWan
+* Alta equipos en TTN
+* Configuración de integración con TTN
 
 ## Sesiones
 
-19, 20, 27 y 28 de Noviembre  2024
+24 y 25 de febrero,  3 y 4 de marzo  2025
 
-* Sesión 1: Introducción a Python. 
-	* ¿Por qué usar Python?
-	* Instalación del entrono
-	* Primeros programas
-	* Sistema ESP32
-	* Presentación de la plataforma ESP32. Comparación con Arduino y micro:bit
-	* Instalación del firmware
-	* Programación de ESP32 con microPython
-	* Uso de la Pantalla OLED
-* Sesión 2: Sensores y actuadores
-	* Conexión de sensores
-	* Control de actuadores
-	* Proyecto de control de riego local
-* Sesión 3: Control remoto
-	* Conexión a Wifi
+* Sesión 1: Programación en microPython. 
+	* Repaso de Python
+	* Actualización del entorno
+	* Instalación de módulos en micropython
+	* Ejemplos de comunicaciones Lora
 	* Introducción a las redes Lora
 	* Conexión entre sistema Lora punto a punto
 	* Proyecto de control remoto de riego
-* Sesión 4: Servidores
+* Sesión 2: Servidores
 	* Conceptos de servidores remotos
 	* Plataforma Raspberry Pi
 	* Instalación y puesta en marcha
 	* Servidor MQTT
 	* Conexión remota MQTT
+	* Uso de gateway Lora
+	* Pruebas LoraWan
+* Sesión 3: Instalación, Configuración y uso de Servicios
+	* Instalación de servicios
+	* Introducción a NodeRed
+	* Introducción a InfluxDB
+	* Introducción a Grafana
+* Sesión 4: Proyecto: Sistema de recogida de datos y control mediante Lora
+	* Montaje del sistema
+	* Configuración
+	* Pruebas del sistema
 
 ![](./images/Licencia_cc_peque.png) Licencia CC by @javacasm
