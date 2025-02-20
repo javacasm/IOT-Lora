@@ -56,4 +56,4 @@
 	* Configuración
 	* Pruebas del sistema
 
-![](./images/Licencia_cc_peque.png) Licencia CC by @javacasm
+![](./images/Licencia_CC_peque.png)  Licencia CC by @javacasm
