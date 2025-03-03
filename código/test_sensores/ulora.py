@@ -363,7 +363,7 @@ class LoRa(object):
                 message = bytes(packet[4:]) if packet_len > 4 else b''
                 
                 if (self._this_address != header_to) and ((header_to != BROADCAST_ADDRESS) or (self._receive_all is False)):
-                    print(f'message not for me: {header_to}')
+                    # print(f'message not for me: {header_to}')
                     return
 
                 if self.crypto and len(message) % 16 == 0:

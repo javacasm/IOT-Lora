@@ -33,7 +33,7 @@ def init_BME280():
         i2c_BME = SoftI2C(scl=Pin(BME_I2C_SCL), sda=Pin(BME_I2C_SDA))
         print('i2c_BME.scan:',i2c_BME.scan())
     if sensorBME280 == None:
-        sensorBME280 = BME280(i2c=i2c_BME,address=0x77)
+        sensorBME280 = BME280(i2c=i2c_BME,address=BME_ADDRESS)
 
 def lee_sensor_bme280():
     init_BME280()
@@ -48,11 +48,17 @@ def lee_sensor_prueba():
 
 def get_medidas_sensores():
         medidas = {}
-        medidas_sensor_bme = lee_sensor_bme280()
-        medidas.update(medidas_sensor_bme) # añade las medidas
-        medidas_sensor_dht = lee_sensor_DHT()
-        medidas.update(medidas_sensor_dht) # añade las medidas
-        return medidas
+        try:
+            medidas_sensor_bme = lee_sensor_bme280()
+            medidas.update(medidas_sensor_bme) # añade las medidas
+        except Exception e:
+            print(f'Error sensor bme: {e}')
+        try:
+            medidas_sensor_dht = lee_sensor_DHT()
+            medidas.update(medidas_sensor_dht) # añade las medidas
+        except Exception e:
+            print(f'Error sensor dht: {e}')
+    return medidas
 
 def envia_medidas_lora(medidas):
         msg_lora = ''
