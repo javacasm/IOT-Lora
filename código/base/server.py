@@ -3,14 +3,13 @@ from ulora import LoRa, ModemConfig
 from test_board import show_text_oled, clear_oled, set_led, test_led, show
 from config_lora import *
 
-v = '0.9'
+v = 0.8
 
 print(f'Lora server v{v}')
 
 datos_recibidos = None
-data_log = DATA_LOG
-def save_data(data,filename):
-    print(f'save2{filename}')
+
+def save_data(data,filename=DATA_LOG):
     with open(filename,"at") as f:
         f.write(data)
 
@@ -26,12 +25,12 @@ def on_recv(payload):
     show(f"SNR: {payload.snr}", y=36)
     show(f"id:{payload.header_id}",y=45)
     show(f"flag:{payload.header_flags}",y=54)
-    if data_log != None:
-        msg=f'{payload.header_to},{payload.header_from},{payload.header_id},"{payload.message}",{payload.rssi},{payload.snr},{payload.header_flags}\n'
-        save_data(msg,data_log)
+    msg=f'{payload.header_to},{payload.header_from},{payload.header_id},"{payload.message}",{payload.rssi},{payload.snr},{payload.header_flags}'
+    save_data(msg)
     set_led(False)
     
 def init_lora(address):
+
     # initialise radio
     # Lora(spi_sck, spi_mosi, spi_miso, interrupt, this_address, cs_pin, reset_pin=None, freq=868.0, tx_power=14,
     #   modem_config=ModemConfig.Bw125Cr45Sf128, receive_all=False, acks=False, crypto=None)
@@ -44,21 +43,19 @@ def init_lora(address):
     lora.set_mode_rx()
 
 
-def listen(address,data_file=None):
-    global data_log
-    data_log = data_file
+
+
+def listen(address):
     init_lora(address)
     contador = 0
     # loop and wait for data
     while True:
         try:
-
-            if contador%50 == 0:
-                if datos_recibidos == None:
-                    clear_oled()                
-                show(f'Listening {contador}')
+            if datos_recibidos == None:
+                clear_oled()
+            show(f'Listening {contador}')
             contador += 1
-            sleep(10)        
+            sleep(1)        
         except Exception as e:
             show(str(e))
             exit()

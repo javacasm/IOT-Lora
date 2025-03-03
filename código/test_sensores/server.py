@@ -2,6 +2,7 @@ from time import sleep
 from ulora import LoRa, ModemConfig
 from test_board import show_text_oled, clear_oled, set_led, test_led, show
 from config_lora import *
+from test_lora import *
 
 v = '0.9'
 
@@ -14,8 +15,8 @@ def save_data(data,filename):
     with open(filename,"at") as f:
         f.write(data)
 
-# This is our callback function that runs when a message is received
-def on_recv(payload):
+# Cuando se reciben datos lora se llama a esta función automáticamente 
+def procesa_datos_recibidos(payload):
     global datos_recibidos
     set_led(True)
     clear_oled()
@@ -38,16 +39,17 @@ def init_lora(address):
     lora = LoRa(RFM95_SPI_SCK,RFM95_SPI_MOSI,RFM95_SPI_MISO, RFM95_IRQ, address, RFM95_CS, reset_pin=RFM95_RST, freq=RF95_FREQ, tx_power=RF95_POW, acks=True, receive_all=True)
 
     # set callback
-    lora.on_recv = on_recv
+    lora.on_recv = procesa_datos_recibidos
 
     # set to listen continuously
     lora.set_mode_rx()
 
 
-def listen(address,data_file=None):
+def listen(direccion,data_file=None):
     global data_log
     data_log = data_file
-    init_lora(address)
+#    init_lora(address)
+    activa_servidor(procesa_datos_recibidos,direccion_servidor = direccion)
     contador = 0
     # loop and wait for data
     while True:
@@ -62,3 +64,4 @@ def listen(address,data_file=None):
         except Exception as e:
             show(str(e))
             exit()
+
