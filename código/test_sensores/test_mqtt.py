@@ -88,5 +88,3 @@ def publish_forever(tiempo = 10):
                 print(f'Error publicando: {e}')
             
         time.sleep_ms(10)
-
-publish_forever()

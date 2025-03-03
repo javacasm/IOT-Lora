@@ -147,7 +147,7 @@
         "id": "db825706.2c5198",
         "type": "mqtt out",
         "z": "4c0dec7e.b587a4",
-        "name": "Rele Off",
+        "name": "LED Off",
         "topic": "/Cliente_66/LED",
         "qos": "",
         "retain": "",
