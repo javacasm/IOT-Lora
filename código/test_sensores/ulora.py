@@ -290,9 +290,10 @@ class LoRa(object):
                     if self._last_payload.header_to == self._this_address and \
                             self._last_payload.header_flags & FLAGS_ACK and \
                             self._last_payload.header_id == self._last_header_id:
-
+                        #print('Got ACK')
                         # We got an ACK
                         return True
+        #print(f'Timeout after {retries}')
         return False
 
     def send_ack(self, header_to, header_id):
@@ -363,7 +364,7 @@ class LoRa(object):
                 message = bytes(packet[4:]) if packet_len > 4 else b''
                 
                 if (self._this_address != header_to) and ((header_to != BROADCAST_ADDRESS) or (self._receive_all is False)):
-                    # print(f'message not for me: {header_to}')
+                    #print(f'message not for me: {header_to}')
                     return
 
                 if self.crypto and len(message) % 16 == 0:

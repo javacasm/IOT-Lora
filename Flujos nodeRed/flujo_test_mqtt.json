@@ -2,7 +2,7 @@
     {
         "id": "4c0dec7e.b587a4",
         "type": "tab",
-        "label": "IOTbit 01 - 05",
+        "label": "test mqtt",
         "disabled": false,
         "info": ""
     },
@@ -148,7 +148,7 @@
         "type": "mqtt out",
         "z": "4c0dec7e.b587a4",
         "name": "LED Off",
-        "topic": "/Cliente_66/LED",
+        "topic": "/CLIENTE_66/LED",
         "qos": "",
         "retain": "",
         "respTopic": "",
@@ -262,6 +262,210 @@
         "statusType": "auto",
         "x": 350,
         "y": 2020,
+        "wires": []
+    },
+    {
+        "id": "88790a6d270108a1",
+        "type": "mqtt in",
+        "z": "4c0dec7e.b587a4",
+        "name": "",
+        "topic": "/CLIENTE_66/H_dht",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9f1d3022.c9017",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 2340,
+        "wires": [
+            [
+                "c844b63faf199bed",
+                "c895678d55aaf71e"
+            ]
+        ]
+    },
+    {
+        "id": "c5b0a14def03839a",
+        "type": "debug",
+        "z": "4c0dec7e.b587a4",
+        "name": "Depuracion",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 2340,
+        "wires": []
+    },
+    {
+        "id": "e17767ae32a4c946",
+        "type": "influxdb out",
+        "z": "4c0dec7e.b587a4",
+        "influxdb": "ccee62f0.fb612",
+        "name": "grabar datos",
+        "measurement": "cliente_66_dht_h",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 610,
+        "y": 2440,
+        "wires": []
+    },
+    {
+        "id": "c844b63faf199bed",
+        "type": "change",
+        "z": "4c0dec7e.b587a4",
+        "name": "Conversión a número",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$number(msg.payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 2340,
+        "wires": [
+            [
+                "c5b0a14def03839a",
+                "e17767ae32a4c946"
+            ]
+        ]
+    },
+    {
+        "id": "c895678d55aaf71e",
+        "type": "debug",
+        "z": "4c0dec7e.b587a4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 350,
+        "y": 2420,
+        "wires": []
+    },
+    {
+        "id": "756556a3d7bcc4e2",
+        "type": "mqtt in",
+        "z": "4c0dec7e.b587a4",
+        "name": "",
+        "topic": "/CLIENTE_66/T_bme",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9f1d3022.c9017",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 2540,
+        "wires": [
+            [
+                "00b34d1a0a3bc07d",
+                "d79b1187069186b6"
+            ]
+        ]
+    },
+    {
+        "id": "9c2d7249ef86724e",
+        "type": "debug",
+        "z": "4c0dec7e.b587a4",
+        "name": "Depuracion",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 2540,
+        "wires": []
+    },
+    {
+        "id": "00b34d1a0a3bc07d",
+        "type": "change",
+        "z": "4c0dec7e.b587a4",
+        "name": "Conversión a número",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$number(msg.payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 2540,
+        "wires": [
+            [
+                "9c2d7249ef86724e",
+                "8c37203773dea367"
+            ]
+        ]
+    },
+    {
+        "id": "d79b1187069186b6",
+        "type": "debug",
+        "z": "4c0dec7e.b587a4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 370,
+        "y": 2620,
+        "wires": []
+    },
+    {
+        "id": "8c37203773dea367",
+        "type": "influxdb out",
+        "z": "4c0dec7e.b587a4",
+        "influxdb": "ccee62f0.fb612",
+        "name": "grabar datos",
+        "measurement": "cliente_66_bme_t",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 630,
+        "y": 2620,
         "wires": []
     },
     {

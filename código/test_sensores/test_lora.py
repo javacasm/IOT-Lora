@@ -3,7 +3,7 @@ from ulora import LoRa, ModemConfig
 from config_lora import *
 from test_board import show, set_led
 
-v = 0.9
+v = '0.9.2'
 
 print(f'Lora client Test v{v}')
 
@@ -20,8 +20,13 @@ def envia_mensaje_lora(mensaje, destino=SERVER_ADDRESS,y=0):
     set_led(True)
     if lora == None:
         init_lora()
-    lora.send_to_wait(mensaje, destino)
     show(f'{mi_direccion}>"{mensaje}">{destino}',y)
+    resultado = lora.send_to_wait(mensaje, destino)
+    y+=9
+    if resultado:
+        show(f'{mi_direccion}<ACK<{destino}',y)
+    else:
+        show('No ACK. Timeout',y)
     set_led(False)
     
 def activa_servidor(funcion_para_procesar_datos_recibidos,direccion_servidor = SERVER_ADDRESS):

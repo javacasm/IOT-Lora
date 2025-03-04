@@ -7,7 +7,7 @@ from test_board import set_led, show,clear_oled
 from test_sensores import get_medidas_sensores
 from config_lora import CLIENT_ADDRESS, SSID, WIFI_PASSWD
 
-v = 0.9
+v = '0.9.1'
 print(f'test_MQTT v{v}')
 
 BROKER_MQTT = '192.168.1.140' # raspy5.local
@@ -39,27 +39,32 @@ def getLocalTimeHumanFormat():
     strLocalTime = "{0}/{1:02}/{2:02} {3:02}:{4:02}:{5:02}".format(*time.localtime(time.time())[0:6])
     return strLocalTime
 
-def publish_forever(tiempo = 10):
+def get_error_MQTT(me):
+    value = f'{me}'
+    msg_error = f'Error conectando: {me}'
+    if value == '5':
+        msg_error =  'Error de autorizacion: {me} '
+    elif value == '4':
+        msg_error = 'Login error: {me}'
+    return msg_error  
+
+def publish_MQTT_forever(tiempo = 10):
     client = umqttsimple.MQTTClient(client_id, BROKER_MQTT, port = PUERTO_MQTT)
     client.set_callback(comprueba_mensajes)
     try:
-        client.connect()
+        client.connect()  # conectamos con el servidor
         client.subscribe(topic_errors)
         print(f'Suscrito a {topic_errors}')
         client.subscribe(topic_LED)
         print(f'Suscrito a {topic_LED}')
     except umqttsimple.MQTTException as me: # https://www.vtscada.com/help/Content/D_Tags/D_MQTT_ErrMsg.htm
-        value = f'{me}'
-        if value == '5':
-            print('Error de autorizacion')
-        elif value == '4':
-            print('Login error')
-        else:
-            print(f'Error conectando: {me}')
+        print(get_error_MQTT(me))
+        print('Reseteando dispositivo en 10 segundos. Ctrl+C para detener')
         time.sleep(10)
         machine.reset()
     except Exception as e:
         print(f'Error conectando (ex): {e}')
+        print('Reseteando dispositivo en 10 segundos. Ctrl+C para detener')     
         time.sleep(10)
         machine.reset()
 
@@ -88,3 +93,4 @@ def publish_forever(tiempo = 10):
                 print(f'Error publicando: {e}')
             
         time.sleep_ms(10)
+

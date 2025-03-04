@@ -4,11 +4,11 @@ from dht import DHT11
 from BME280 import BME280
 from time import sleep
 from test_board import show, clear_oled
-from config_lora import DHT_PIN,BME_I2C_SCL,BME_I2C_SDA,SERVER_ADDRESS
+from config_lora import DHT_PIN,BME_I2C_SCL,BME_I2C_SDA,BME_ADDRESS,SERVER_ADDRESS
 from test_lora import envia_mensaje_lora
 
 
-v = '0.9'
+v = '0.9.1'
 print(f'test_sensores v{v}')
 
 sensorDHT = None
@@ -31,7 +31,10 @@ def init_BME280():
     global i2c_BME, sensorBME280
     if i2c_BME == None:
         i2c_BME = SoftI2C(scl=Pin(BME_I2C_SCL), sda=Pin(BME_I2C_SDA))
-        print('i2c_BME.scan:',i2c_BME.scan())
+        dispositivos_I2C_BME =i2c_BME.scan() 
+        print('i2c_BME.scan:',dispositivos_I2C_BME)
+        if BME_ADDRESS not in dispositivos_I2C_BME:
+            print(f'ERROR: no se encuentra el dispositivo con dirección {BME_ADDRESS}')
     if sensorBME280 == None:
         sensorBME280 = BME280(i2c=i2c_BME,address=BME_ADDRESS)
 
@@ -51,14 +54,14 @@ def get_medidas_sensores():
         try:
             medidas_sensor_bme = lee_sensor_bme280()
             medidas.update(medidas_sensor_bme) # añade las medidas
-        except Exception e:
-            print(f'Error sensor bme: {e}')
+        except :
+            print('ERROR sensor BME')
         try:
             medidas_sensor_dht = lee_sensor_DHT()
             medidas.update(medidas_sensor_dht) # añade las medidas
-        except Exception e:
-            print(f'Error sensor dht: {e}')
-    return medidas
+        except :
+            print('ERROR sensor DHT')
+        return medidas
 
 def envia_medidas_lora(medidas):
         msg_lora = ''

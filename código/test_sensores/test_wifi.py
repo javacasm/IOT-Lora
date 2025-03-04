@@ -4,7 +4,7 @@ from utime import sleep
 from network import WLAN,STA_IF
 from machine import reset
 
-v = 0.9
+v = '0.9.1'
 
 print(f'test_wifi v{v}')
 
@@ -16,7 +16,8 @@ def init_wifi(ssid,wifi_passwd):
         w.active(True)
     try:
         print('Conectando a',ssid)
-        w.connect(ssid, wifi_passwd)
+        if not w.isconnected():
+            w.connect(ssid, wifi_passwd)
     except OSError as oes:
         print('Error interno:',oes)
         print('El dispositivo se reseteará en 5 segundos')
