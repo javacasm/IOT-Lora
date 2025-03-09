@@ -1,6 +1,6 @@
 # config_lora
 
-v = 0.9.2
+v = '0.9.2'
 
 print(f'config_lora v{v}')
 
