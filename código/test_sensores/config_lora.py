@@ -1,6 +1,6 @@
 # config_lora
 
-v = 0.9
+v = 0.9.2
 
 print(f'config_lora v{v}')
 
@@ -14,16 +14,14 @@ SD_MISO = 2
 SD_CS = 13
 
 # HELTEC
-#OLED_RESET = 16
 
-#OLED_SCL = 15
-#OLED_SDA = 4
+
+
 
 ## TTGO 1.6
-OLED_RESET = None
 
-OLED_SCL = 22
-OLED_SDA = 21
+
+
 
 OLED_ADDRESS = 0x3c
 
@@ -50,11 +48,10 @@ DHT_PIN = 14
 BME_I2C_SCL = OLED_SCL
 BME_I2C_SDA = OLED_SDA
 
-BME_ADDRESS = 0x76
+
 
 SERVER_ADDRESS = 25
 CLIENT_ADDRESS = 66
 
 
-SSID = SSID_CEP
-WIFI_PASSWD = WIFI_PASSWD_CEP
+

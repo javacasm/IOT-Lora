@@ -1,6 +1,8 @@
 from machine import I2C
 import time
 
+v = '0.9.2'
+
 # BME280 default address.
 BME280_I2CADDR = 0x76
 
@@ -269,12 +271,36 @@ class BME280:
     return "{}.{:02d}C".format(ti, td)
 
   @property
+  def temperature_number(self):
+    "Return the temperature in degrees."
+    t = self.read_temperature()
+    ti = t // 100
+    td = t - ti * 100
+    return "{}.{:02d}".format(ti, td)
+
+  @property
+  def pressure_number(self):
+    "Return the temperature in hPa."
+    p = self.read_pressure() // 256
+    pi = p // 100
+    pd = p - pi * 100
+    return "{}.{:02d}".format(pi, pd)
+
+  @property
   def pressure(self):
     "Return the temperature in hPa."
     p = self.read_pressure() // 256
     pi = p // 100
     pd = p - pi * 100
     return "{}.{:02d}hPa".format(pi, pd)
+
+  @property
+  def humidity_number(self):
+    "Return the humidity in percent."
+    h = self.read_humidity()
+    hi = h // 1024
+    hd = h * 100 // 1024 - hi * 100
+    return "{}.{:02d}".format(hi, hd)
 
   @property
   def humidity(self):

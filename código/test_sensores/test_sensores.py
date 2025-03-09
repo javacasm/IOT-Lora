@@ -6,9 +6,9 @@ from time import sleep
 from test_board import show, clear_oled
 from config_lora import DHT_PIN,BME_I2C_SCL,BME_I2C_SDA,BME_ADDRESS,SERVER_ADDRESS
 from test_lora import envia_mensaje_lora
+import json
 
-
-v = '0.9.1'
+v = '0.9.2'
 print(f'test_sensores v{v}')
 
 sensorDHT = None
@@ -40,9 +40,9 @@ def init_BME280():
 
 def lee_sensor_bme280():
     init_BME280()
-    temp = sensorBME280.temperature
-    hum = sensorBME280.humidity
-    pres = sensorBME280.pressure        
+    temp = sensorBME280.temperature_number
+    hum = sensorBME280.humidity_number
+    pres = sensorBME280.pressure_number        
     return {'T_bme':temp,'H_bme':hum,'P_bme':pres}
 
 def lee_sensor_prueba():
@@ -51,16 +51,19 @@ def lee_sensor_prueba():
 
 def get_medidas_sensores():
         medidas = {}
+        
         try:
             medidas_sensor_bme = lee_sensor_bme280()
             medidas.update(medidas_sensor_bme) # añade las medidas
         except :
             print('ERROR sensor BME')
+        '''
         try:
             medidas_sensor_dht = lee_sensor_DHT()
             medidas.update(medidas_sensor_dht) # añade las medidas
         except :
             print('ERROR sensor DHT')
+        '''
         return medidas
 
 def envia_medidas_lora(medidas):
@@ -69,10 +72,11 @@ def envia_medidas_lora(medidas):
         clear_oled()
         for magnitud,medida in medidas.items():
             mensaje = f'{magnitud}:{medida}'
+        
             show(mensaje,y)
-            msg_lora+=mensaje +' '
             y += 9 # pasamos a la siguiente línea
-        envia_mensaje_lora(msg_lora,y=y)    
+            msg_lora+=mensaje +' '
+        envia_mensaje_lora(json.dumps(medidas),y=y)    
 
 def test_sensores(espera = 10):
 
